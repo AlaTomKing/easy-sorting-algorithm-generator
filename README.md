@@ -1,7 +1,7 @@
 <!-- VSCode users, if you see this, click [Ctrl+Shift+V] or [Cmd+Shift+V] -->
 
 # What?
-You can read the LICENSE file 
+You can read the [`LICENSE`](./LICENSE). file if you want
 
 # How to install?
 Just download the zip file by clicking
@@ -15,5 +15,4 @@ if you can, you can modify the html and create ur own
 # How can I use [`settings.jsonc`](./settings.jsonc)?
 
 # What happens the thingy's broken?
-If you just broke the html file:<br>
-<ul>Just reinstall the thingy at [My GitHub repository](https://github.com/AlaTomKing/easy-sorting-algorithm-generator) (Which you might already be here)
+If you just broke the html file:<br> just reinstall the thingy at [My GitHub repository](https://github.com/AlaTomKing/easy-sorting-algorithm-generator) (Only if you're not on GitHub)
