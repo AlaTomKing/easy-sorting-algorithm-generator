@@ -16,4 +16,4 @@ if you can, you can modify the html and create ur own
 
 # What happens the thingy's broken?
 If you just broke the html file:<br>
-<ul>Just reinstall the thingy at [My GitHub repository]()
+<ul>Just reinstall the thingy at [My GitHub repository](https://github.com/AlaTomKing/easy-sorting-algorithm-generator) (Which you might already be here)
