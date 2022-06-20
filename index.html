@@ -1,8 +1,11 @@
+<!-- If you want to, you can modify the html and create your own sorting algorithm. breaking the file will not be my responsibility, beginners! -->
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <title>Random sort algorithms to relax and listen to this banger</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <style>
         html,
         body {
@@ -21,14 +24,15 @@
             justify-content: center;
             align-items: flex-end;
             padding: 10px;
-            gap: 1px
+            gap: 1px;
         }
 
         div {
             width: 100%;
-            height: 100%
+            min-width: 1px;
         }
 
+        /*
         div.w {
             background: #fff
         }
@@ -40,15 +44,507 @@
         div.g {
             background: #0f0
         }
+
+        div.b {
+            background: #00f
+        }
+
+        div.rb {
+            background: #f0f
+        }*/
+
+        #button {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0px;
+            color: #f00;
+            background: none;
+            border: none;
+
+            font-style: normal;
+            font-weight: 400;
+            font-size: 30px;
+            line-height: 15px;
+
+            background-clip: text;
+        }
+
+        #canvas {
+            position: absolute;
+
+            margin: 0px;
+            top: 10px;
+            left: 10px;
+
+            image-rendering: pixelated;
+        }
     </style>
 </head>
 
 <body>
-    <div class="w"></div>
-
+    <canvas id="canvas"></canvas>
+    <button id="button" onclick="this.remove()">Click here if you consent sounds</button>
     <script>
-        
+        'use strict';
+
+        //////////     SETTINGS    ///////////
+
+        let settings = {
+            "Array Size": 300,
+            "Delay Milliseconds": 1,
+            "Repeat?": true,
+            "Sound?": false,
+            "Canvas?": false,
+            "Rainbow?": true
+        }
+
+        ////////// END OF SETTINGS ///////////
+
+        let colors = {
+            'normal': '#fff',
+            'min': '#f00',
+            'sort': '#0f0',
+            'current': '#00f', 
+            'target': '#0ff',
+            'switch': '#f0f'
+        };
+
+        window.addEventListener('load', () => {
+            let sortin = [];
+            let sec, repeat, sound, ctx, canvas, rainbow, size, updateRender, arrayacces, comparison, pauseRendering;
+
+            /* THIS CAME FROM THIS GITHUB PAGE you should check it out: https://gist.github.com/xposedbones/75ebaef3c10060a3ee3b246166caab56 */
+            Number.prototype.map = function (in_min, in_max, out_min, out_max) {
+                return (this - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+            }
+            /*---------------------------------------------------------------------------*/
+
+            function log() {
+                console.clear();
+                console.log(`Comparisons: ${comparison}`);
+                console.log(`Array Accesses: ${arrayacces}`);
+            }
+
+            function sortingTime(settings) {
+                sec = settings['Delay Milliseconds'];
+                repeat = settings['Repeat?'];
+                sound = settings['Sound?'];
+                canvas = settings['Canvas?'];
+                rainbow = settings['Rainbow?'];
+                size = settings['Array Size'];
+
+                if (!settings['Sound?']) {
+                    document.querySelector('#button').remove()
+                }
+
+                if (!canvas) {
+                    for (let i = 0; i < settings['Array Size']; i++) {
+                        let order = (i + 1)
+                        let procent = order / settings['Array Size'] * 100
+                        let color
+
+                        if (rainbow) {
+                            color = `hsl(${procent.map(0, 100, 0, 360)}, 100%, 50%)`
+                        } else {
+                            color = colors.normal
+                        }
+
+                        let rect = document.createElement('div');
+                        rect.setAttribute('style', `height: ${procent}%;order: ${order}; background: ${color}`);
+                        document.querySelector('body').appendChild(rect);
+
+                        sortin.push({ order, rect, color, procent });
+                    }
+
+                    updateRender = (array) => {
+                        if (!pauseRendering) {
+                            for (let i = 0; i < array.length; i++) {
+                                let rect = array[i].rect;
+                                let order = array[i].order;
+                                let color = array[i].color;
+                                let procent = array[i].procent;
+
+                                rect.setAttribute('style', `height: ${procent}%;order: ${order}; background: ${color}`);
+                            }
+                        }
+                    }
+                } else {
+                    let canvas = document.querySelector('#canvas');
+
+                    canvas.width = window.innerWidth - 20;
+                    canvas.height = window.innerHeight - 20;
+
+                    ctx = canvas.getContext("2d");
+
+                    for (let i = 0; i < settings['Array Size']; i++) {
+                        let order = (i + 1)
+                        let procent = order / settings['Array Size'] * 100
+                        let color = colors.normal
+
+                        sortin.push({ order, color, procent });
+                    }
+
+                    updateRender = (array) => {
+                        if (!pauseRendering) {
+                            for (let i = 0; i < array.length; i++) {
+                                //let rect = array[i].rect;
+                                let order = array[i].order;
+                                let color = array[i].color;
+                                let procent = array[i].procent / 100;
+
+                                /*rect.setAttribute('style', `height: ${procent}%;order: ${order}; background: ${color}`);*/
+
+                                ctx.clearRect(
+                                    Math.round((canvas.width * (i / array.length)) + (i / array.length)),
+                                    0,
+                                    Math.round(canvas.width * (1 / array.length)),
+                                    canvas.height);
+                                ctx.fillStyle = color;
+
+                                if (size > 500) {
+                                    ctx.fillRect(
+                                        Math.round((canvas.width * (i / array.length))),
+                                        Math.round(canvas.height - (canvas.height * procent)),
+                                        Math.round(canvas.width * (1 / array.length)),
+                                        Math.round((canvas.height * procent)));
+                                } else {
+                                    ctx.fillRect(
+                                        Math.round((canvas.width * (i / array.length)) + (i / array.length)),
+                                        Math.round(canvas.height - (canvas.height * procent)),
+                                        Math.round(canvas.width * (1 / array.length)) - 1,
+                                        Math.round((canvas.height * procent)));
+                                }
+
+                                //ctx.strokeStyle = '#000';
+                                //ctx.strokeRect(Math.round(canvas.width * (i / array.length)), Math.round(canvas.height - (canvas.height * procent)), Math.round(canvas.width * (1 / array.length)), Math.round((canvas.height * procent)));
+                            }
+                        }
+                    }
+                }
+
+                sortin = randomizeArray(sortin);
+                sortin = random(sortin);
+            }
+
+            window.addEventListener('resize', () => {
+                if (canvas && !pauseRendering) {
+                    canvas.width = window.innerWidth - 20;
+                    canvas.height = window.innerHeight - 20;
+                }
+            })
+
+            document.addEventListener("visibilitychange", () => {
+                if (document.visibilityState === "hidden") {
+                    pauseRendering = true;
+                } else {
+                    pauseRendering = false;
+                }
+            });
+
+            function randomizeArray(array) {
+                let temp = [];
+
+                for (let i = 0; i < array.length; i++) {
+                    temp.push(array[i].order);
+                }
+
+                temp = temp.sort((a, b) => 0.5 - Math.random());
+
+                for (let i = 0; i < array.length; i++) {
+                    array[i].order = temp[i];
+                }
+
+                array.sort((a, b) => { return a.order - b.order });
+
+                updateRender(array);
+                return array;
+            }
+
+            function wait(milliseconds) {
+                return new Promise(resolve => { setInterval(resolve, milliseconds); });
+            }
+
+            function color(array, number, color) {
+                if (!rainbow) {
+                    array[number].color = color;
+                    updateRender(array);
+                } else {
+                    if (color != colors.normal && color != colors.sort) {
+                        array[number].color = '#fff';
+                        updateRender(array);
+                    } else {
+                        array[number].color = `hsl(${array[number].procent.map(0, 100, 0, 360)}, 100%, 50%)`
+                        updateRender(array);
+                    }
+                }
+            }
+
+            function swap(array, order1, order2) {
+                let one = order1.order;
+                let two = order2.order;
+
+                order1.order = two;
+                order2.order = one;
+
+                array.sort((a, b) => { return a.order - b.order });
+                updateRender(array);
+            }
+
+            async function success(array) {
+                if (!rainbow) {
+                    var context = new AudioContext()
+                    var o = context.createOscillator()
+                    var g = context.createGain()
+                    o.connect(g)
+                    o.type = 'triangle'
+                    g.connect(context.destination)
+
+                    if (sound) {
+                        o.start(0)
+                    }
+
+                    for (let i = 0; i < array.length; i++) {
+                        color(array, i, colors.normal);
+                    }
+                    for (let i = 0; i < array.length; i++) {
+                        var frequency = array[i].procent.map(0, 100, 220.0, 1319)
+                        color(array, i, colors.current);
+                        o.frequency.value = frequency
+
+                        await wait(sec);
+                        color(array, i, colors.sort);
+                    }
+                }
+                await wait(1000);
+                if (repeat) {
+                    /*sortin = randomizeArray(array);
+                    sortin = random(sortin);*/
+                    window.location.reload();
+                }
+            }
+
+            function random(array) {
+                let number = Math.floor(Math.random() * 3)
+
+                switch (number) {
+                    case 0:
+                        sort.selection(array);
+                        break;
+
+                    case 1:
+                        sort.insertion(array);
+                        break;
+                    case 2:
+                        sort.bubble(array);
+                        break;
+                }
+            }
+
+            let sort = {
+                selection: async function (array) {
+                    /*array.color = colors.min;
+                    updateRender(array);
+                    console.log(array)*/
+                    arrayacces = 0;
+                    comparison = 0;
+
+                    for (let i = 0; i < array.length; i++) {
+                        color(array, i, colors.normal);
+                    }
+
+                    for (let i = 0; i < array.length; i++) {
+                        arrayacces++;
+                        log();
+
+                        if (array.length - 1 == i) {
+                            color(array, i, colors.sort);
+                            break;
+                        }
+
+                        color(array, i, colors.min);
+                        let min = i;
+
+                        await wait(sec);
+
+                        var context = new AudioContext()
+                        var o = context.createOscillator()
+                        var g = context.createGain()
+                        o.connect(g)
+                        o.type = 'triangle'
+                        g.connect(context.destination)
+                        if (sound) {
+                            o.start()
+                        }
+
+                        g.gain.value = 0.2;
+
+                        context.v
+
+                        for (let j = i + 1; j < array.length; j++) {
+                            arrayacces++;
+                            arrayacces++;
+                            log();
+
+                            color(array, j, colors.current);
+
+                            var frequency = array[j].procent.map(0, 100, 220.0, 1319)
+                            o.frequency.value = frequency
+
+                            comparison++
+                            log();
+
+                            if (array[j].procent < array[min].procent) {
+                                await wait(sec);
+                                if (min == i) {
+                                    color(array, min, colors.target);
+                                } else {
+                                    color(array, min, colors.normal);
+                                }
+                                min = j
+                                color(array, min, colors.min);
+
+                                await wait(sec);
+                            } else {
+                                await wait(sec);
+                                color(array, j, colors.normal);
+                            }
+                        }
+                        g.gain.exponentialRampToValueAtTime(
+                            0.00001, context.currentTime + 0.04
+                        )
+
+                        if (min != i) {
+                            arrayacces++;
+                            log();
+                            color(array, i, colors.switch);
+                            color(array, min, colors.switch);
+
+                            await wait(sec);
+
+                            swap(array, array[i], array[min])
+
+                            arrayacces++;
+                            log();
+
+                            await wait(sec);
+
+                            color(array, i, colors.sort);
+                            color(array, min, colors.normal);
+                        } else {
+                            arrayacces++;
+                            log();
+
+                            color(array, min, colors.sort);
+                        }
+                    }
+                    success(array);
+                    return array;
+                },
+                insertion: async function (array) {
+                    arrayacces = 0;
+                    comparison = 0;
+
+                    for (let i = 0; i < array.length; i++) {
+                        color(array, i, colors.normal);
+                    }
+
+                    for (let i = 0; i < array.length; i++) {
+                        let j = i;
+                        arrayacces++;
+                        //log();
+
+                        color(array, i, colors.current);
+
+                        await wait(sec);
+
+                        let k = 0;
+                        let h;
+
+                        while (j > 0 && array[j - 1].procent > array[j].procent) {
+                            if (k == 0) {
+                                if (h) {
+                                    color(array, h, colors.normal);
+                                }
+                                h = j
+                            }
+
+                            k++;
+                            if (j > 0) {
+                                color(array, j - 1, colors.min);
+                                await wait(sec);
+                                color(array, j - 1, colors.sort);
+                            }
+                            arrayacces++;
+                            //log();
+                            color(array, j, colors.switch);
+                            color(array, j - 1, colors.switch);
+
+                            await wait(sec);
+
+                            swap(array, array[j - 1], array[j])
+                            j -= 1;
+
+                            await wait(sec);
+
+                            color(array, j, colors.sort);
+                            color(array, j + 1, colors.sort);
+
+                            color(array, h, colors.sort);
+                        }
+
+                        if (j > 0) {
+                            color(array, j - 1, colors.min);
+                            await wait(sec);
+                            color(array, j - 1, colors.sort);
+                        }
+                        color(array, j, colors.sort);
+                    }
+
+                    success(array);
+                },
+                bubble: async function (array) {
+                    arrayacces = 0;
+                    comparison = 0;
+
+                    for (let i = 0; i < array.length; i++) {
+                        color(array, i, colors.normal);
+                    }
+
+                    let n = array.length - 1
+                    for (let i = 0; i < array.length; i++) {
+                        let j = 0
+                        for (j; j < n; j++) {
+                            color(array, j, colors.current);
+                            await wait(sec);
+                            color(array, j + 1, colors.min);
+                            await wait(sec);
+                            if (array[j].procent > array[j + 1].procent) { 
+                                color(array, j, colors.switch);
+                                color(array, j +1, colors.switch);
+
+                                await wait(sec);
+
+                                swap(array, array[j], array[j+1])
+
+                                await wait(sec);
+
+                                color(array, j, colors.normal);
+                                color(array, j + 1, colors.normal);
+                            } else {
+                                color(array, j, colors.normal);
+                            }
+                        }
+                        color(array, j, colors.sort);
+                        n--;
+                    }
+
+                    success(array);
+                }
+            }
+            sortingTime(settings)
+        })
     </script>
 </body>
 
-</html>
+</html>)
