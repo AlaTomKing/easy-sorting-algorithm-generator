@@ -91,7 +91,7 @@
         //////////     SETTINGS    ///////////
 
         let settings = {
-            "Array Size": 64,
+            "Array Size": 100,
             "Delay Milliseconds": 1,
             "Repeat?": true,
             "Sound?": false,
@@ -223,7 +223,7 @@
                     }
                 }
 
-                sortin = randomizeArray(sortin);
+                sortin = await randomizeArray(sortin);
                 sortin = random(sortin);
             }
 
