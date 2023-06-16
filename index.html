@@ -253,6 +253,7 @@
 
                 for (let i = 0; i < array.length; i++) {
                     array[i].order = temp[i];
+                    await wait(settings[)
                 }
 
                 array.sort((a, b) => { return a.order - b.order });
@@ -312,15 +313,15 @@
                         color(array, i, colors.current);
                         o.frequency.value = frequency
 
-                        await wait(sec);
+                         await wait(sec);
                         color(array, i, colors.sort);
                     }
                 }
                 await wait(1000);
                 if (repeat) {
-                    sortin = randomizeArray(array);
-                    sortin = random(sortin);
-                    //window.location.reload();
+                    //sortin = randomizeArray(array);
+                    //sortin = random(sortin);
+                    window.location.reload();
                 }
             }
 
