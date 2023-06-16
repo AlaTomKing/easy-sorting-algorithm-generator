@@ -478,6 +478,9 @@
                         let h;
 
                         while (j > 0 && array[j - 1].procent > array[j].procent) {
+                            g.gain.exponentialRampToValueAtTime(
+                            0.00001, context.currentTime + 0.04
+                        )
                             if (k == 0) {
                                 if (h) {
                                     color(array, h, colors.normal);
@@ -549,6 +552,9 @@
                             color(array, j + 1, colors.min);
                             await wait(sec);
                             if (array[j].procent > array[j + 1].procent) { 
+                                g.gain.exponentialRampToValueAtTime(
+                            0.00001, context.currentTime + 0.04
+                        )
                                 color(array, j, colors.switch);
                                 color(array, j +1, colors.switch);
 
