@@ -94,7 +94,7 @@
             "Array Size": 64,
             "Delay Milliseconds": 0,
             "Repeat?": true,
-            "Sound?": true,
+            "Sound?": false,
             "Canvas?": false,
             "Rainbow?": true
         }
@@ -456,35 +456,16 @@
                         arrayacces++;
                         //log();
 
-                        var frequency = array[i].procent.map(0, 100, 220.0, 1319)
-                            o.frequency.value = frequency
-
-
                         color(array, i, colors.current);
 
                         await wait(sec);
 
-                        var context = new AudioContext()
-                        var o = context.createOscillator()
-                        var g = context.createGain()
-                        o.connect(g)
-                        o.type = 'triangle'
-                        g.connect(context.destination)
-                        if (sound) {
-                            o.start()
-                        }
-
-                        g.gain.value = 0.2;
-
-                        context.v
+                
 
                         let k = 0;
                         let h;
 
                         while (j > 0 && array[j - 1].procent > array[j].procent) {
-                            g.gain.exponentialRampToValueAtTime(
-                            0.00001, context.currentTime + 0.04
-                        )
                             if (k == 0) {
                                 if (h) {
                                     color(array, h, colors.normal);
@@ -538,31 +519,6 @@
                     for (let i = 0; i < array.length; i++) {
                         let j = 0
                         for (j; j < n; j++) {
-                            var context = new AudioContext()
-                        var o = context.createOscillator()
-                        var g = context.createGain()
-                        o.connect(g)
-                        o.type = 'triangle'
-                        g.connect(context.destination)
-                        if (sound) {
-                            o.start()
-                        }
-
-                        g.gain.value = 0.2;
-
-                            var frequency = array[i].procent.map(0, 100, 220.0, 1319)
-                            o.frequency.value = frequency
-
-
-                            context.v
-                            color(array, j, colors.current);
-                            await wait(sec);
-                            color(array, j + 1, colors.min);
-                            await wait(sec);
-                            if (array[j].procent > array[j + 1].procent) { 
-                                g.gain.exponentialRampToValueAtTime(
-                            0.00001, context.currentTime + 0.04
-                        )
                                 color(array, j, colors.switch);
                                 color(array, j +1, colors.switch);
 
