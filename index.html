@@ -5,6 +5,7 @@
 
 <head>
     <!--<title>Random sort algorithms to relax and listen to this banger</title>-->
+    <title>Randomizing array</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <style>
         html,
@@ -262,7 +263,9 @@
 
                 array.sort((a, b) => { return a.order - b.order });
 
-                return  random(array);
+                await wait(1000);
+                
+                return random(array);
             }
 
             function color(array, number, color) {
