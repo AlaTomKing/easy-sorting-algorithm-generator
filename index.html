@@ -246,7 +246,7 @@
                 return new Promise(resolve => { setTimeout(resolve, milliseconds); });
             }
 
-            function randomizeArray(array) {
+            async function randomizeArray(array) {
                 let temp = [];
 
                 for (let i = 0; i < array.length; i++) {
@@ -257,7 +257,7 @@
 
                 for (let i = 0; i < array.length; i++) {
                     array[i].order = temp[i];
-                    await wait(0)
+                    await wait(0);
                 }
 
                 array.sort((a, b) => { return a.order - b.order });
