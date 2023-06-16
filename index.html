@@ -387,7 +387,7 @@
                             arrayacces++;
                             arrayacces++;
                             log();
-
+                            
                             color(array, j, colors.current);
 
                             var frequency = array[j].procent.map(0, 100, 220.0, 1319)
@@ -455,6 +455,10 @@
                         let j = i;
                         arrayacces++;
                         //log();
+
+                        var frequency = array[i].procent.map(0, 100, 220.0, 1319)
+                            o.frequency.value = frequency
+
 
                         color(array, i, colors.current);
 
@@ -545,6 +549,10 @@
                         }
 
                         g.gain.value = 0.2;
+
+                            var frequency = array[i].procent.map(0, 100, 220.0, 1319)
+                            o.frequency.value = frequency
+
 
                             context.v
                             color(array, j, colors.current);
