@@ -223,8 +223,7 @@
                     }
                 }
 
-                sortin = await randomizeArray(sortin);
-                sortin = random(sortin);
+                sortin = randomizeArray(sortin);
             }
 
             window.addEventListener('resize', () => {
@@ -263,7 +262,7 @@
 
                 array.sort((a, b) => { return a.order - b.order });
 
-                return array;
+                return random(sortin);
             }
 
             function color(array, number, color) {
