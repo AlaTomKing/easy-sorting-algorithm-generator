@@ -4,7 +4,7 @@
 <html>
 
 <head>
-    <title>Random sort algorithms to relax and listen to this banger</title>
+    <!--<title>Random sort algorithms to relax and listen to this banger</title>-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <style>
         html,
@@ -329,13 +329,15 @@
 
                 switch (number) {
                     case 0:
+                        document.title = "Selection Sort"
                         sort.selection(array);
                         break;
-
                     case 1:
+                        document.title = "Insertion Sort"
                         sort.insertion(array);
                         break;
                     case 2:
+                        document.title = "Bubble Sort"
                         sort.bubble(array);
                         break;
                 }
