@@ -257,12 +257,12 @@
 
                 for (let i = 0; i < array.length; i++) {
                     array[i].order = temp[i];
-                    await wait(1);
+                    await wait(sec);
+                    updateRender(array);
                 }
 
                 array.sort((a, b) => { return a.order - b.order });
 
-                updateRender(array);
                 return array;
             }
 
