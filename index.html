@@ -460,6 +460,18 @@
 
                         await wait(sec);
 
+                        var context = new AudioContext()
+                        var o = context.createOscillator()
+                        var g = context.createGain()
+                        o.connect(g)
+                        o.type = 'triangle'
+                        g.connect(context.destination)
+                        if (sound) {
+                            o.start()
+                        }
+
+                        g.gain.value = 0.2;
+
                         let k = 0;
                         let h;
 
@@ -517,6 +529,17 @@
                     for (let i = 0; i < array.length; i++) {
                         let j = 0
                         for (j; j < n; j++) {
+                            var context = new AudioContext()
+                        var o = context.createOscillator()
+                        var g = context.createGain()
+                        o.connect(g)
+                        o.type = 'triangle'
+                        g.connect(context.destination)
+                        if (sound) {
+                            o.start()
+                        }
+
+                        g.gain.value = 0.2;
                             color(array, j, colors.current);
                             await wait(sec);
                             color(array, j + 1, colors.min);
