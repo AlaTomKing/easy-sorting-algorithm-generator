@@ -91,7 +91,7 @@
         //////////     SETTINGS    ///////////
 
         let settings = {
-            "Array Size": 128,
+            "Array Size": 64,
             "Delay Milliseconds": 0,
             "Repeat?": true,
             "Sound?": true,
@@ -262,7 +262,7 @@
             }
 
             function wait(milliseconds) {
-                return new Promise(resolve => { setInterval(resolve, milliseconds); });
+                return new Promise(resolve => { setTimeout(resolve, milliseconds); });
             }
 
             function color(array, number, color) {
@@ -318,9 +318,9 @@
                 }
                 await wait(1000);
                 if (repeat) {
-                    /*sortin = randomizeArray(array);
-                    sortin = random(sortin);*/
-                    window.location.reload();
+                    sortin = randomizeArray(array);
+                    sortin = random(sortin);
+                    //window.location.reload();
                 }
             }
 
