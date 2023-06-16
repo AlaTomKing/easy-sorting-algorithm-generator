@@ -519,6 +519,12 @@
                     for (let i = 0; i < array.length; i++) {
                         let j = 0
                         for (j; j < n; j++) {
+                              
+                            color(array, j, colors.current);
+                            await wait(sec);
+                            color(array, j + 1, colors.min);
+                            await wait(sec);
+                            if (array[j].procent > array[j + 1].procent) { 
                                 color(array, j, colors.switch);
                                 color(array, j +1, colors.switch);
 
