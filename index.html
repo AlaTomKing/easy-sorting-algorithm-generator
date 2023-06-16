@@ -92,7 +92,7 @@
 
         let settings = {
             "Array Size": 64,
-            "Delay Milliseconds": 0,
+            "Delay Milliseconds": 1,
             "Repeat?": true,
             "Sound?": false,
             "Canvas?": false,
@@ -257,7 +257,7 @@
 
                 for (let i = 0; i < array.length; i++) {
                     array[i].order = temp[i];
-                    await wait(0);
+                    await wait(1);
                 }
 
                 array.sort((a, b) => { return a.order - b.order });
