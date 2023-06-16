@@ -242,6 +242,10 @@
                 }
             });
 
+            function wait(milliseconds) {
+                return new Promise(resolve => { setTimeout(resolve, milliseconds); });
+            }
+
             function randomizeArray(array) {
                 let temp = [];
 
@@ -260,10 +264,6 @@
 
                 updateRender(array);
                 return array;
-            }
-
-            function wait(milliseconds) {
-                return new Promise(resolve => { setTimeout(resolve, milliseconds); });
             }
 
             function color(array, number, color) {
