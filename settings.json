@@ -1,6 +1,6 @@
 {
-    "Array Size": 100,
-    "Delay Milliseconds": 1,
+    "Array Size": 128,
+    "Delay Milliseconds": 0,
     "Repeat?": true,
     "Sound?": false,
     "Optimize Peformance?": false
